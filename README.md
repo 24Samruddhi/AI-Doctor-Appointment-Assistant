@@ -157,22 +157,6 @@ A confirmation email has been sent.
 
 ---
 
-## Screenshots
-
-### Workflow
-
-![Workflow](Screenshot1.png)
-
-### Telegram Conversation
-
-![Telegram Chat](Screenshot2.png)
-
-### Appointment Confirmation
-
-![Confirmation](Screenshot3.png)
-
----
-
 ## Future Improvements
 
 - Appointment cancellation
