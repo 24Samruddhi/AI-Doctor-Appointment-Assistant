@@ -7,13 +7,13 @@ This project demonstrates workflow automation, AI integration, calendar manageme
 
  Features
 
- Book doctor appointments through Telegram
- Check doctor availability using Google Calendar
- Create appointment events automatically
- Send confirmation emails via Gmail
- Maintain conversation context using memory
- AI-powered responses using Gemini, Groq, or OpenAI models
- Real-time appointment scheduling
+ 1.Book doctor appointments through Telegram
+ 2.Check doctor availability using Google Calendar
+ 3.Create appointment events automatically
+ 4.Send confirmation emails via Gmail
+ 5.Maintain conversation context using memory
+ 6.AI-powered responses using Gemini, Groq, or OpenAI models
+ 7.Real-time appointment scheduling
 
  Workflow
 
@@ -28,25 +28,25 @@ This project demonstrates workflow automation, AI integration, calendar manageme
 
 Technologies Used
 
- n8n
- Telegram Bot API
- Google Gemini
- Groq
- OpenAI
- Google Calendar API
- Gmail API
+ 1.n8n
+ 2.Telegram Bot API
+ 3.Google Gemini
+ 4.Groq
+ 5.OpenAI
+ 6.Google Calendar API
+ 7.Gmail API
 
 Prerequisites
 
 Before running the project, ensure you have:
 
- n8n account or self-hosted n8n instance
- Telegram Bot Token
- Google Calendar credentials
- Gmail credentials
- Gemini API Key (optional)
- Groq API Key (optional)
- OpenAI API Key (optional)
+ 1.n8n account or self-hosted n8n instance
+ 2.Telegram Bot Token
+ 3.Google Calendar credentials
+ 4.Gmail credentials
+ 5.Gemini API Key (optional)
+ 6.Groq API Key (optional)
+ 7.OpenAI API Key (optional)
 
 Setup Instructions
 
