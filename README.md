@@ -166,14 +166,3 @@ A confirmation email has been sent.
 - SMS notifications
 - Voice assistant integration
 
----
-
-## Author
-
-Samruddhi Raut
-
----
-
-## License
-
-This project is created for educational and learning purposes.
