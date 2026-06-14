@@ -1,0 +1,426 @@
+{
+  "name": "ai-doctor-appointment-assistant",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {
+          "systemMessage": "You are a Doctor Appointment Booking Assistant.\n\nYour job is to help users book, reschedule, view, and cancel doctor appointments using Google Calendar.\n\nGREETING\n\nIf the user says Hi, Hello, Hey, Good Morning, or Good Evening, respond:\n\n\"Hello! I can help you book, reschedule, check, or cancel doctor appointments. How may I assist you today?\"\n\nBOOKING RULES\n\nAlways use the Date & Time tool to get the current date and time.\nNever use hardcoded dates or years.\nBefore booking, ask for:\nDoctor name or specialty\nPreferred date\nPreferred time\nAlways use the Google Calendar Search tool to check availability before booking.\nIf the slot is unavailable, suggest alternative available times.\nIf the slot is available, collect:\nFull Name\nEmail Address\nPhone Number\nReason for Visit\nShow an appointment summary and ask for confirmation.\nOnly after confirmation, use the Google Calendar Create Event tool.\n\nRESCHEDULING\n\nIdentify the appointment.\nAsk for the new date and time.\nCheck availability.\nUpdate the appointment after confirmation.\n\nCANCELLATION\n\nIdentify the appointment.\nConfirm cancellation.\nDelete the appointment.\n\nPRIVACY\n\nNever reveal another patient's information.\n\nEMERGENCY\n\nIf the user mentions a medical emergency, reply:\n\n\"This may be a medical emergency. Please contact emergency services or visit the nearest emergency department immediately.\"\n\nERROR HANDLING\n\nIf any tool, AI model, Google Calendar service, Date & Time service, or external service is temporarily unavailable, respond:\n\n\"Sorry, the appointment service is temporarily busy. Please try again in a few moments.\"\n\nNever show technical errors, API errors, quota errors, stack traces, or internal system messages to the user.\n\nEMAIL RULES\n\nAfter successfully creating an appointment:\n\n1. Ask for the patient's email address.\n2. Use the Gmail tool.\n3. Send an email to the patient's email address.\n\nSubject: Appointment Confirmed\n\nBody:\n\nHello {Patient Name},\n\nYour appointment has been confirmed.\n\nDoctor: {Doctor Name}\nDate: {Appointment Date}\nTime: {Appointment Time}\n\nThank you.\n\n4. After sending the email, confirm the booking in Telegram."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "baba470d-02f9-447c-8c93-bcca1b0f7f8e",
+      "name": "AI Agent",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 3000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -368,
+        32
+      ],
+      "id": "142619b9-1b0b-4414-ad5f-50c97e1d4c36",
+      "name": "Google Gemini Chat Model",
+      "notesInFlow": false,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "6yJRhyuloHtbbJHG",
+          "name": "Google Gemini(PaLM) Api account 14"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.message.chat.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        160,
+        256
+      ],
+      "id": "f1884af7-ea03-4a67-8eca-b22c6de19cae",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "samruddhiraut240406@gmail.com",
+          "mode": "list",
+          "cachedResultName": "samruddhiraut240406@gmail.com"
+        },
+        "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', ``, 'string') }}",
+        "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', ``, 'string') }}",
+        "additionalFields": {
+          "summary": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Summary', ``, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        528,
+        272
+      ],
+      "id": "c33d0777-7ed0-4971-a0f9-49f5dd6b0302",
+      "name": "Create",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "d1aum0LxhXtll0en",
+          "name": "Google Calendar OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "samruddhiraut240406@gmail.com",
+          "mode": "list",
+          "cachedResultName": "samruddhiraut240406@gmail.com"
+        },
+        "limit": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Limit', ``, 'number') }}",
+        "timeMin": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('After', ``, 'string') }}",
+        "timeMax": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Before', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        304,
+        256
+      ],
+      "id": "9e00575f-b3a5-4d5e-b0c3-987304a29b5f",
+      "name": "Search",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "d1aum0LxhXtll0en",
+          "name": "Google Calendar OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "timezone": "Asia/Kolkata"
+        }
+      },
+      "type": "n8n-nodes-base.dateTimeTool",
+      "typeVersion": 2,
+      "position": [
+        416,
+        256
+      ],
+      "id": "aae4519d-f99f-411f-98af-da71b10cb30d",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f87ac1b1-8193-4a6a-9546-64f4fd94d6af",
+              "name": "message",
+              "value": "Sorry, the appointment service is temporarily busy. Please try again in a few moments.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        64
+      ],
+      "id": "54852a54-567f-43ae-afdd-950815cf5ce0",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "026e3107-b9eb-4432-a94c-6406fe63772c",
+      "name": "Telegram Trigger",
+      "webhookId": "acd51e5f-9347-430c-9337-d9c8c1e6983d",
+      "credentials": {
+        "telegramApi": {
+          "id": "Q4yw6OE6i039JNXq",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": true,
+          "parse_mode": "=None"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        608,
+        -128
+      ],
+      "id": "d769b26e-ede6-4676-b4c3-4246d1feca0c",
+      "name": "Send a text message",
+      "webhookId": "02f85328-8b0b-4234-ae22-509836d77582",
+      "credentials": {
+        "telegramApi": {
+          "id": "Q4yw6OE6i039JNXq",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -368,
+        336
+      ],
+      "id": "36dd102b-50ab-45f0-a76f-2e203782bb3f",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "J5haDW7rscbQwXqW",
+          "name": "OpenAI account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('To', ``, 'string') }}",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', `Recipient email address collected from the user during appointment booking.\nUse the patient's email address.`, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        656,
+        272
+      ],
+      "id": "3559a85d-97e0-4303-a030-1fb52d5dc84c",
+      "name": "Send a message in Gmail",
+      "webhookId": "63919633-8044-4e8d-b160-8276a4d9f6d9",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "nH75ByesZWrvdFYN",
+          "name": "Gmail account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -384,
+        192
+      ],
+      "id": "1210d9ca-c04d-4dfb-a578-04a7c4dbc647",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "nK2psiLNBl68NGXa",
+          "name": "Groq account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-20b:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        0,
+        224
+      ],
+      "id": "4f26c2cc-8184-42a1-84c2-c6045160c049",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "Qx1f2jf7x4SmJYMv",
+          "name": "OpenRouter account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        []
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "Send a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "d7e554f4-c858-4a1e-b3d9-52d227f9c05c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7dcab3f71c0ad79fe21d89c98604c79e0151702b7adb9f8892b3eb068050cbcd"
+  },
+  "nodeGroups": [],
+  "id": "zRFVZVRKu6E97Edu",
+  "tags": []
+}
