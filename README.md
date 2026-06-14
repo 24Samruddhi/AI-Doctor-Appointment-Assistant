@@ -2,17 +2,18 @@
 
 Overview
 
-AI Doctor Appointment Booking Assistant is an intelligent chatbot built using **n8n**, **Telegram**, **Google Gemini/Groq/OpenAI**, **Google Calendar**, and **Gmail**. The assistant helps users book doctor appointments, check availability, create calendar events, and send appointment confirmation emails automatically.
+AI Doctor Appointment Booking Assistant is an intelligent chatbot built using n8n, Telegram, Google Gemini/Groq/OpenAI, Google Calendar, and Gmail. The assistant automates the appointment booking process by interacting with users through Telegram, checking doctor availability, scheduling appointments in Google Calendar, and sending confirmation emails.
+This project demonstrates workflow automation, AI integration, calendar management, and email notifications in a no-code/low-code environment.
 
  Features
 
-* Book doctor appointments through Telegram
-* Check doctor availability using Google Calendar
-* Create appointment events automatically
-* Send confirmation emails via Gmail
-* Maintain conversation context using memory
-* AI-powered responses using Gemini, Groq, or OpenAI models
-* Real-time appointment scheduling
+ Book doctor appointments through Telegram
+ Check doctor availability using Google Calendar
+ Create appointment events automatically
+ Send confirmation emails via Gmail
+ Maintain conversation context using memory
+ AI-powered responses using Gemini, Groq, or OpenAI models
+ Real-time appointment scheduling
 
  Workflow
 
@@ -25,61 +26,49 @@ AI Doctor Appointment Booking Assistant is an intelligent chatbot built using **
 7. Gmail sends a confirmation email.
 8. Telegram sends a confirmation message back to the user.
 
-Architecture
-
-Telegram → AI Agent → Memory
-                      ↓
-Google Calendar Search → Check Availability
-                      ↓
-Google Calendar Create Event → Book Appointment
-                      ↓
-Gmail → Send Confirmation Email
-                      ↓
-Telegram → Send Confirmation Message
-
 Technologies Used
 
-* n8n
-* Telegram Bot API
-* Google Gemini
-* Groq
-* OpenAI
-* Google Calendar API
-* Gmail API
+ n8n
+ Telegram Bot API
+ Google Gemini
+ Groq
+ OpenAI
+ Google Calendar API
+ Gmail API
 
 Prerequisites
 
 Before running the project, ensure you have:
 
-* n8n account or self-hosted n8n instance
-* Telegram Bot Token
-* Google Calendar credentials
-* Gmail credentials
-* Gemini API Key (optional)
-* Groq API Key (optional)
-* OpenAI API Key (optional)
+ n8n account or self-hosted n8n instance
+ Telegram Bot Token
+ Google Calendar credentials
+ Gmail credentials
+ Gemini API Key (optional)
+ Groq API Key (optional)
+ OpenAI API Key (optional)
 
 Setup Instructions
 
 1. Create Telegram Bot
 
-* Open BotFather on Telegram
-* Create a new bot
-* Copy the bot token
+ Open BotFather on Telegram
+ Create a new bot
+ Copy the bot token
 
 2. Configure n8n
 
-* Import the workflow
-* Add Telegram credentials
-* Add Google Calendar credentials
-* Add Gmail credentials
-* Configure AI model credentials
+ Import the workflow
+ Add Telegram credentials
+ Add Google Calendar credentials
+ Add Gmail credentials
+ Configure AI model credentials
 
 3. Run the Workflow
 
-* Activate the workflow
-* Send a message to the Telegram bot
-* Follow the appointment booking process
+ Activate the workflow
+ Send a message to the Telegram bot
+ Follow the appointment booking process
 
 Example Conversation
 
@@ -103,19 +92,10 @@ Bot:
 
 Future Improvements
 
-* Appointment cancellation
-* Appointment rescheduling
-* Multi-doctor support
-* Patient database integration
-* SMS notifications
-* Voice assistant integration
-
-Author
-
-Samruddhi Raut
-
-License
-
-This project is created for educational and learning purposes.
-
+ Appointment cancellation
+ Appointment rescheduling
+ Multi-doctor support
+ Patient database integration
+ SMS notifications
+ Voice assistant integration
 
